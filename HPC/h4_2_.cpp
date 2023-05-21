@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cstdlib>
+#include <cuda_runtime.h>
+
+#define BLOCK_SIZE 16
+
+// Kernel function for matrix multiplication
+__global__ void matrixMultiplication(const int* a, const int* b, int* result, int size) {
+    int row = blockIdx.y * blockDim.y + threadIdx.y;
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+
+    int val = 0;
+    for (int k = 0; k < size; ++k) {
+        val += a[row * size + k] * b[k * size + col];
+    }
+
+    result[row * size + col] = val;
+}
+
+int main() {
+    int size = 100;
+    int* host_a = new int[size * size];
+    int* host_b = new int[size * size];
+    int* host_result = new int[size * size];
+
+    // Initialize input matrices
+    for (int i = 0; i < size * size; ++i) {
+        host_a[i] = i;
+        host_b[i] = i;
+    }
+
+    //
