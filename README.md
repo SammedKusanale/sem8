@@ -8,3 +8,10 @@ otherwise
 g++ -fopenmp ass.cpp -o ac
 
 ./ac
+
+
+To run CUDA
+
+nvcc -o program_name program_name.cu
+
+./program_name
